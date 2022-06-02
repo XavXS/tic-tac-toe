@@ -15,4 +15,5 @@
     width: var(--square-size);
     height: var(--square-size);
     border: 1px solid gray;
+    font-size: 3rem;
 }
