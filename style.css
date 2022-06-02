@@ -1,12 +1,16 @@
+:root {
+    --square-size: 64px;
+}
+
 .container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, var(--square-size));
 }
 
 .container div {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 64px;
-    height: 64px;
+    width: var(--square-size);
+    height: var(--square-size);
 }
