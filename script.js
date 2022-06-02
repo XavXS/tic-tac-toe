@@ -11,7 +11,7 @@ const Player = (name, mark) => {
 }
 
 const gameBoard = (() => {
-    const board = [];
+    let board = [];
 
     const addMark = (index, mark) => {
         board[index] = mark
@@ -73,6 +73,12 @@ const displayManager = (() => {
         squares[index-1].textContent = mark;
     };
 
+    const clearMarks = () => {
+        for(let i=0; i<squares.length; ++i) {
+            squares[i].textContent = '';
+        }
+    }
+
     const displayTurn = (name) => {
         header.textContent = `${name}'s turn`;
     }
@@ -85,14 +91,32 @@ const displayManager = (() => {
         header.textContent = `It's a tie!`;
     }
 
-    return {displayMark, displayTurn, displayWin, displayTie};
+    return {displayMark, 
+            clearMarks,
+            displayTurn, 
+            displayWin, 
+            displayTie};
 })();
 
 const game = (() => {
-    const player1 = Player('player 1', 'X');
-    const player2 = Player('player 2', 'O');
+    let player1; 
+    let player2;
+    let turn;
+    let gameRunning = false;
 
-    let turn = player1;
+    const start = () => {
+        if(gameRunning)
+            return;
+
+        gameRunning = true;
+        player1 = Player('player 1', 'X');
+        player2 = Player('player 2', 'O');
+        turn = player1;
+
+        gameBoard.clear();
+        displayManager.clearMarks();
+        displayManager.displayTurn(turn.getName());
+    }
 
     const switchTurn = () => {
         if(turn === player1) turn = player2;
@@ -100,7 +124,8 @@ const game = (() => {
     }
 
     const playTurn = (index) => {
-        if(gameBoard.isMarked(index)) return;
+        if(gameBoard.isMarked(index) || !gameRunning) 
+            return;
 
         let mark = turn.getMark();
         let name = turn.getName();
@@ -110,17 +135,19 @@ const game = (() => {
 
         if(gameBoard.hasWon(mark)) {
             displayManager.displayWin(name);
+            gameRunning = false;
             return;
         }
 
         if(gameBoard.isFull()) {
             displayManager.displayTie();
+            gameRunning = false;
             return;
         }
 
         switchTurn();
-        displayManager.displayTurn(name);
+        displayManager.displayTurn(turn.getName());
     };
 
-    return {playTurn};
+    return {start, playTurn};
 })();
