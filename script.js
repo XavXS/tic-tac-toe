@@ -17,11 +17,15 @@ const gameBoard = (() => {
         board[index] = mark
     };
 
+    const isMarked = (index) => {
+        return board[index];
+    }
+
     const clear = () => {
         board = [];
     };
 
-    return {addMark};
+    return {addMark, isMarked, clear};
 })();
 
 const displayManager = (() => {
@@ -46,6 +50,8 @@ const game = (() => {
     }
 
     const playTurn = (index) => {
+        if(gameBoard.isMarked(index)) return;
+
         gameBoard.addMark(index, turn.getMark());
         displayManager.displayMark(index, turn.getMark());
         switchTurn();
