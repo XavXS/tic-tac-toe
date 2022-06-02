@@ -13,8 +13,12 @@ const gameBoard = (() => {
 })();
 
 const displayManager = (() => {
-    const displayMark = (index) => {};
-    
+    const squares = document.querySelectorAll('.container div');
+
+    const displayMark = (index, mark) => {
+        squares[index].textContent = mark;
+    };
+
     return {displayMark};
 })();
 
@@ -31,7 +35,7 @@ const game = (() => {
 
     const playTurn = (index) => {
         gameBoard.addMark(index, turn.getMark());
-        displayManager.displayMark(index);
+        displayManager.displayMark(index, turn.getMark());
         switchTurn();
     };
 
