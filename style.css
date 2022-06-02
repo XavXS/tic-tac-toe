@@ -1,6 +1,14 @@
 :root {
-    --square-size: 64px;
+    --square-size: 94px;
+    --select-size: 32px;
     font-size: 16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
 
 .container {
@@ -16,4 +24,21 @@
     height: var(--square-size);
     border: 1px solid gray;
     font-size: 3rem;
+}
+
+.mark-container {
+    display: grid;
+    grid-template-columns: repeat(3, var(--select-size));
+}
+
+.main-menu {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.518);
+    position: absolute;
+    padding: 16px;
+}
+
+.configuration {
+    display: flex;
 }
