@@ -25,7 +25,35 @@ const gameBoard = (() => {
         board = [];
     };
 
-    return {addMark, isMarked, clear};
+    const hasWon = (mark) => {
+        for(let i=1; i<=7; i+=3) {
+            for(let j=0; j<=2; ++j) {
+                if(board[i+j] !== mark) break;
+                if(j >= 2) return true;
+            }
+        }
+        
+        for(let i=1; i<=3; ++i) {
+            for(let j=0; j<=6; j+=3) {
+                if(board[i+j] !== mark) break;
+                if(j >= 6) return true;
+            }
+        }
+
+        for(let i=1; i<=9; i+=4) {
+            if(board[i] !== mark) break;
+            if(i >= 9) return true;
+        }
+
+        for(let i=3; i<=7; i+=2) {
+            if(board[i] !== mark) break;
+            if(i >= 7) return true;
+        }
+
+        return false;
+    }
+
+    return {addMark, isMarked, hasWon, clear};
 })();
 
 const displayManager = (() => {
@@ -52,8 +80,12 @@ const game = (() => {
     const playTurn = (index) => {
         if(gameBoard.isMarked(index)) return;
 
-        gameBoard.addMark(index, turn.getMark());
-        displayManager.displayMark(index, turn.getMark());
+        let mark = turn.getMark();
+        gameBoard.addMark(index, mark);
+        displayManager.displayMark(index, mark);
+        if(gameBoard.hasWon(mark))
+            console.log(mark + " won!");
+
         switchTurn();
     };
 
