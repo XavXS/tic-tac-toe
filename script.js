@@ -1,3 +1,15 @@
+const Player = (name, mark) => {
+    const getName = () => {
+        return name;
+    }
+
+    const getMark = () => {
+        return mark;
+    }
+
+    return {getName, getMark};
+}
+
 const gameBoard = (() => {
     const board = [];
 
@@ -16,7 +28,7 @@ const displayManager = (() => {
     const squares = document.querySelectorAll('.container div');
 
     const displayMark = (index, mark) => {
-        squares[index].textContent = mark;
+        squares[index-1].textContent = mark;
     };
 
     return {displayMark};
@@ -41,15 +53,3 @@ const game = (() => {
 
     return {playTurn};
 })();
-
-const Player = (name, mark) => {
-    const getName = () => {
-        return name;
-    }
-
-    const getMark = () => {
-        return mark;
-    }
-
-    return {getName, getMark};
-}
