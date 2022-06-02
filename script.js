@@ -73,11 +73,19 @@ const displayManager = (() => {
         squares[index-1].textContent = mark;
     };
 
-    const updateTurn = (turn) => {
-        header.textContent = `${turn}'s turn`;
+    const displayTurn = (name) => {
+        header.textContent = `${name}'s turn`;
     }
 
-    return {displayMark, updateTurn};
+    const displayWin = (name) => {
+        header.textContent = `${name} wins!`;
+    }
+
+    const displayTie = () => {
+        header.textContent = `It's a tie!`;
+    }
+
+    return {displayMark, displayTurn, displayWin, displayTie};
 })();
 
 const game = (() => {
@@ -95,22 +103,23 @@ const game = (() => {
         if(gameBoard.isMarked(index)) return;
 
         let mark = turn.getMark();
+        let name = turn.getName();
 
         gameBoard.addMark(index, mark);
         displayManager.displayMark(index, mark);
 
         if(gameBoard.hasWon(mark)) {
-            console.log(mark + " won!");
+            displayManager.displayWin(name);
             return;
         }
 
         if(gameBoard.isFull()) {
-            console.log("it's a tie!");
+            displayManager.displayTie();
             return;
         }
 
         switchTurn();
-        displayManager.updateTurn(turn.getName());
+        displayManager.displayTurn(name);
     };
 
     return {playTurn};
