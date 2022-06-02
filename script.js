@@ -54,7 +54,15 @@ const gameBoard = (() => {
         return false;
     }
 
-    return {addMark, isMarked, hasWon, clear};
+    const isFull = () => {
+        for(let i=1; i<=9; ++i) {
+            if(!board[i]) return false;
+        }
+
+        return true;
+    }
+
+    return {addMark, isMarked, hasWon, isFull, clear};
 })();
 
 const displayManager = (() => {
@@ -82,10 +90,19 @@ const game = (() => {
         if(gameBoard.isMarked(index)) return;
 
         let mark = turn.getMark();
+
         gameBoard.addMark(index, mark);
         displayManager.displayMark(index, mark);
-        if(gameBoard.hasWon(mark))
+
+        if(gameBoard.hasWon(mark)) {
             console.log(mark + " won!");
+            return;
+        }
+
+        if(gameBoard.isFull()) {
+            console.log("it's a tie!");
+            return;
+        }
 
         switchTurn();
     };
