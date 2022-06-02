@@ -67,12 +67,17 @@ const gameBoard = (() => {
 
 const displayManager = (() => {
     const squares = document.querySelectorAll('.container div');
+    const header = document.querySelector('h2');
 
     const displayMark = (index, mark) => {
         squares[index-1].textContent = mark;
     };
 
-    return {displayMark};
+    const updateTurn = (turn) => {
+        header.textContent = `${turn}'s turn`;
+    }
+
+    return {displayMark, updateTurn};
 })();
 
 const game = (() => {
@@ -105,6 +110,7 @@ const game = (() => {
         }
 
         switchTurn();
+        displayManager.updateTurn(turn.getName());
     };
 
     return {playTurn};
