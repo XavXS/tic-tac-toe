@@ -1,19 +1,51 @@
 const gameBoard = (() => {
     const board = [];
-    const addMark = (mark, index) => board[index] = mark;
+
+    const addMark = (index, mark) => {
+        board[index] = mark
+    };
+
+    const clear = () => {
+        board = [];
+    };
+
     return {addMark};
 })();
 
-const Player = (name, mark) => {
-    return {name, mark}
-}
-
 const displayManager = (() => {
     const displayMark = (index) => {};
+    
     return {displayMark};
 })();
 
 const game = (() => {
     const player1 = Player('player 1', 'X');
     const player2 = Player('player 2', 'O');
+
+    const turn = player1;
+
+    const switchTurn = () => {
+        if(turn === player1) turn = player2;
+        else turn = player1;
+    }
+
+    const playTurn = (index) => {
+        gameBoard.addMark(index, turn.getMark());
+        displayManager.displayMark(index);
+        switchTurn();
+    };
+
+    return {playTurn};
 })();
+
+const Player = (name, mark) => {
+    const getName = () => {
+        return name;
+    }
+
+    const getMark = () => {
+        return mark;
+    }
+
+    return {getName, getMark};
+}
