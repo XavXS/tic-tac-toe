@@ -38,7 +38,7 @@ const game = (() => {
     const player1 = Player('player 1', 'X');
     const player2 = Player('player 2', 'O');
 
-    const turn = player1;
+    let turn = player1;
 
     const switchTurn = () => {
         if(turn === player1) turn = player2;
