@@ -1,6 +1,7 @@
 :root {
     --square-size: 94px;
     --select-size: 32px;
+    --shadow-col: rgba(0, 0, 0, 0.5);
     font-size: 16px;
 }
 
@@ -32,11 +33,12 @@
 }
 
 .main-menu {
+    position: absolute;
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.518);
-    position: absolute;
+    box-shadow: 0 0 4px var(--shadow-col);
     padding: 16px;
+    right: 0;
 }
 
 .configuration {

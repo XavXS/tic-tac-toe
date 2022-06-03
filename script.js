@@ -1,53 +1,64 @@
-const Player = (name, mark) => {
+const Player = (_name, _mark, _isCpu, _level) => {
     const getName = () => {
-        return name;
+        return _name;
     }
 
     const getMark = () => {
-        return mark;
+        return _mark;
     }
 
-    return {getName, getMark};
+    const play = () => {
+        if(!_isCpu) return;
+
+        let indices = gameBoard.getEmptyIndices();
+        let randIndex = Math.floor(Math.random()*indices.length);
+        let choice = indices[randIndex];
+        game.playTurn(choice);
+    }
+
+    return {getName, 
+            getMark, 
+            play};
 }
 
 const gameBoard = (() => {
-    let board = [];
+    let _board = [];
 
     const addMark = (index, mark) => {
-        board[index] = mark
+        _board[index] = mark
     };
 
     const isMarked = (index) => {
-        return board[index];
+        return _board[index];
     }
 
     const clear = () => {
-        board = [];
+        _board = [];
     };
 
     const hasWon = (mark) => {
         // check horizontal
         for(let i=1; i<=7; i+=3) {
             for(let j=0; j<=2; ++j) {
-                if(board[i+j] !== mark) break;
+                if(_board[i+j] !== mark) break;
                 if(j >= 2) return true;
             }
         }
         // check vertical
         for(let i=1; i<=3; ++i) {
             for(let j=0; j<=6; j+=3) {
-                if(board[i+j] !== mark) break;
+                if(_board[i+j] !== mark) break;
                 if(j >= 6) return true;
             }
         }
         // check diagonal 1
         for(let i=1; i<=9; i+=4) {
-            if(board[i] !== mark) break;
+            if(_board[i] !== mark) break;
             if(i >= 9) return true;
         }
         // check diagonal 2
         for(let i=3; i<=7; i+=2) {
-            if(board[i] !== mark) break;
+            if(_board[i] !== mark) break;
             if(i >= 7) return true;
         }
 
@@ -56,39 +67,52 @@ const gameBoard = (() => {
 
     const isFull = () => {
         for(let i=1; i<=9; ++i) {
-            if(!board[i]) return false;
+            if(!_board[i]) return false;
         }
 
         return true;
     }
 
-    return {addMark, isMarked, hasWon, isFull, clear};
+    const getEmptyIndices = () => {
+        let indices = [];
+        for(let i=1; i<=9; ++i) {
+            if(!_board[i]) indices.push(i);
+        }
+        return indices;
+    }
+
+    return {addMark, 
+            isMarked, 
+            hasWon, 
+            isFull, 
+            clear,
+            getEmptyIndices};
 })();
 
 const displayManager = (() => {
-    const squares = document.querySelectorAll('.container div');
-    const header = document.querySelector('h2');
+    const _squares = document.querySelectorAll('.container div');
+    const _header = document.querySelector('h2');
 
     const displayMark = (index, mark) => {
-        squares[index-1].textContent = mark;
+        _squares[index-1].textContent = mark;
     };
 
     const clearMarks = () => {
-        for(let i=0; i<squares.length; ++i) {
-            squares[i].textContent = '';
+        for(let i=0; i<_squares.length; ++i) {
+            _squares[i].textContent = '';
         }
     }
 
     const displayTurn = (name) => {
-        header.textContent = `${name}'s turn`;
+        _header.textContent = `${name}'s turn`;
     }
 
     const displayWin = (name) => {
-        header.textContent = `${name} wins!`;
+        _header.textContent = `${name} wins!`;
     }
 
     const displayTie = () => {
-        header.textContent = `It's a tie!`;
+        _header.textContent = `It's a tie!`;
     }
 
     return {displayMark, 
@@ -108,19 +132,27 @@ const game = (() => {
         if(gameRunning)
             return;
 
+        let p1cpu = document.getElementById('p1cpu').checked;
+        let p2cpu = document.getElementById('p2cpu').checked;
+
         gameRunning = true;
-        player1 = Player('player 1', 'X');
-        player2 = Player('player 2', 'O');
+        player1 = Player('player 1', 'X', p1cpu, 0);
+        player2 = Player('player 2', 'O', p2cpu, 0);
         turn = player1;
 
         gameBoard.clear();
         displayManager.clearMarks();
         displayManager.displayTurn(turn.getName());
+
+        turn.play();
     }
 
     const switchTurn = () => {
         if(turn === player1) turn = player2;
         else turn = player1;
+
+        displayManager.displayTurn(turn.getName());
+        turn.play();
     }
 
     const playTurn = (index) => {
@@ -133,12 +165,13 @@ const game = (() => {
         gameBoard.addMark(index, mark);
         displayManager.displayMark(index, mark);
 
+        // detect win
         if(gameBoard.hasWon(mark)) {
             displayManager.displayWin(name);
             gameRunning = false;
             return;
         }
-
+        // detect tie
         if(gameBoard.isFull()) {
             displayManager.displayTie();
             gameRunning = false;
@@ -146,7 +179,6 @@ const game = (() => {
         }
 
         switchTurn();
-        displayManager.displayTurn(turn.getName());
     };
 
     return {start, playTurn};
