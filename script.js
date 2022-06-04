@@ -78,25 +78,70 @@ const gameBoard = (() => {
         return indices;
     }
 
-    return {addMark, 
-            isMarked, 
-            hasWon,
-            isFull, 
-            clear,
-            getEmptyIndices, 
-            print, 
-            removeMark};
+    return {
+        addMark, 
+        isMarked, 
+        hasWon,
+        isFull, 
+        clear,
+        getEmptyIndices, 
+        print, 
+        removeMark
+    };
 })();
 
 const node = (_index) => {
     let _children = [];
+    let _point = 0;
 
     const getChildren = () => {
         return _children;
     }
 
+    const getPoint = () => {
+        return _point;
+    }
+
+    const setPoint = (point) => {
+        _point = point;
+    }
+
     const addChild = (_node) => {
-        _children.push(_node);
+        getChildren().push(_node);
+    }
+
+    const findMaxChild = () => {
+        let children = getChildren();
+        if(children.length === 0)
+            return;
+
+        let maxChild = children[0];
+        let maxPoint = children[0].getPoint();
+        children.forEach(child => {
+            let point = child.getPoint();
+            if(point > maxPoint) {
+                maxChild = child;
+                maxPoint = point;
+            }
+        })
+        return maxChild;
+    }
+
+    const findMinChild = () => {
+        let children = getChildren();
+        if(children.length === 0)
+            return;
+
+        let minChild = children[0];
+        let minPoint = children[0].getPoint();
+        children.forEach(child => {
+            let point = child.getPoint();
+            if(point < minPoint) {
+                minChild = child;
+                minPoint = point;
+            }
+        })
+        return minChild;
     }
 
     const getIndex = () => {
@@ -106,7 +151,11 @@ const node = (_index) => {
     return {
         getChildren,
         getIndex,
-        addChild
+        addChild,
+        getPoint,
+        setPoint,
+        findMaxChild,
+        findMinChild
     };
 }
 
@@ -119,10 +168,16 @@ const gameTree = (() => {
         return _root;
     }
 
-    const buildTree = (_currentNode) => {
+    const buildTree = (_currentNode, minimax=1) => {
         let indices = gameBoard.getEmptyIndices();
 
-        if(gameBoard.hasWon(_p1mark) || gameBoard.hasWon(_p2mark)) {
+        if(gameBoard.hasWon(_p1mark)) {
+            _currentNode.setPoint(indices.length+1);
+            gameBoard.removeMark(_currentNode.getIndex());
+            return;
+        }
+        else if(gameBoard.hasWon(_p2mark)) {
+            _currentNode.setPoint(-(indices.length+1));
             gameBoard.removeMark(_currentNode.getIndex());
             return;
         }
@@ -138,8 +193,18 @@ const gameTree = (() => {
                 gameBoard.addMark(index, _p2mark);
             }
 
-            buildTree(newNode);
+            buildTree(newNode, -minimax);
         });
+
+        // if children exist
+        if(_currentNode.getChildren().length > 0) {
+            if(minimax === 1) {
+                _currentNode.setPoint(_currentNode.findMaxChild().getPoint());
+            }
+            else {
+                _currentNode.setPoint(_currentNode.findMinChild().getPoint());
+            }
+        }
 
         gameBoard.removeMark(_currentNode.getIndex());
     }
