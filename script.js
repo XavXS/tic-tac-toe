@@ -1,32 +1,15 @@
-const Player = (_name, _mark, _isCpu, _level) => {
-    const getName = () => {
-        return _name;
-    }
-
-    const getMark = () => {
-        return _mark;
-    }
-
-    const play = () => {
-        if(!_isCpu) return;
-
-        let indices = gameBoard.getEmptyIndices();
-        let randIndex = Math.floor(Math.random()*indices.length);
-        let choice = indices[randIndex];
-        game.playTurn(choice);
-    }
-
-    return {getName, 
-            getMark, 
-            play};
-}
-
 const gameBoard = (() => {
     let _board = [];
 
     const addMark = (index, mark) => {
         _board[index] = mark
     };
+
+
+    const removeMark = (index) => {
+        if(index === undefined) return;
+        _board[index] = undefined;
+    }
 
     const isMarked = (index) => {
         return _board[index];
@@ -35,6 +18,18 @@ const gameBoard = (() => {
     const clear = () => {
         _board = [];
     };
+
+    const print = () => {
+        for(let i=1; i<_board.length; i+=3) {
+            let content = '';
+            for(let j=0; j<3; ++j) {
+                if(!_board[i+j]) content += '  ';
+                else content += _board[i+j] + ' ';
+            }
+            console.log(content);
+        }
+        console.log(' ');
+    }
 
     const hasWon = (mark) => {
         // check horizontal
@@ -76,18 +71,117 @@ const gameBoard = (() => {
     const getEmptyIndices = () => {
         let indices = [];
         for(let i=1; i<=9; ++i) {
-            if(!_board[i]) indices.push(i);
+            if(!_board[i]) {
+                indices.push(i);
+            }
         }
         return indices;
     }
 
     return {addMark, 
             isMarked, 
-            hasWon, 
+            hasWon,
             isFull, 
             clear,
-            getEmptyIndices};
+            getEmptyIndices, 
+            print, 
+            removeMark};
 })();
+
+const node = (_index) => {
+    let _children = [];
+
+    const getChildren = () => {
+        return _children;
+    }
+
+    const addChild = (_node) => {
+        _children.push(_node);
+    }
+
+    const getIndex = () => {
+        return _index;
+    }
+
+    return {
+        getChildren,
+        getIndex,
+        addChild
+    };
+}
+
+const gameTree = (() => {
+    let _root = node();
+    const _p1mark = 'X';
+    const _p2mark = 'O';
+
+    const getRoot = () => {
+        return _root;
+    }
+
+    const buildTree = (_currentNode) => {
+        let indices = gameBoard.getEmptyIndices();
+
+        if(gameBoard.hasWon(_p1mark) || gameBoard.hasWon(_p2mark)) {
+            gameBoard.removeMark(_currentNode.getIndex());
+            return;
+        }
+
+        indices.forEach(index => {
+            let newNode = node(index);
+            _currentNode.addChild(newNode);
+
+            if(indices.length % 2 !== 0) {
+                gameBoard.addMark(index, _p1mark);
+            }
+            else {
+                gameBoard.addMark(index, _p2mark);
+            }
+
+            buildTree(newNode);
+        });
+
+        gameBoard.removeMark(_currentNode.getIndex());
+    }
+
+    buildTree(_root);
+
+    return {getRoot,};
+})();
+
+const Player = (_name, _mark, _isCpu, _level, _firstmover) => {
+    const getName = () => {
+        return _name;
+    }
+
+    const getMark = () => {
+        return _mark;
+    }
+
+    const play = () => {
+        if(!_isCpu) return;
+
+        switch(_level) {
+                // easy mode
+            case 0:
+                break;
+                // impossible mode
+            case 2:
+                // normal mode
+            default:
+                let indices = gameBoard.getEmptyIndices(gameBoard.getBoard());
+                let randIndex = Math.floor(Math.random() * indices.length);
+                let choice = indices[randIndex];
+                game.playTurn(choice);
+        }
+    }
+
+    return {
+            getName, 
+            getMark, 
+            play
+    };
+}
 
 const displayManager = (() => {
     const _squares = document.querySelectorAll('.container div');
@@ -127,17 +221,19 @@ const game = (() => {
     let player2;
     let turn;
     let gameRunning = false;
+    let gameNode;
 
     const start = () => {
         if(gameRunning)
             return;
-
+        
         let p1cpu = document.getElementById('p1cpu').checked;
         let p2cpu = document.getElementById('p2cpu').checked;
 
         gameRunning = true;
-        player1 = Player('player 1', 'X', p1cpu, 0);
-        player2 = Player('player 2', 'O', p2cpu, 0);
+        gameNode = gameTree.getRootNode();
+        player1 = Player('player 1', 'X', p1cpu, 0, true);
+        player2 = Player('player 2', 'O', p2cpu, 0, false);
         turn = player1;
 
         gameBoard.clear();
@@ -155,13 +251,16 @@ const game = (() => {
         turn.play();
     }
 
-    const playTurn = (index) => {
+    const playTurn = (index, newNode) => {
         if(gameBoard.isMarked(index) || !gameRunning) 
             return;
 
         let mark = turn.getMark();
         let name = turn.getName();
 
+        // update node
+
+        // update board
         gameBoard.addMark(index, mark);
         displayManager.displayMark(index, mark);
 
@@ -181,5 +280,16 @@ const game = (() => {
         switchTurn();
     };
 
-    return {start, playTurn};
+    const getGameNode = () => {
+        return gameNode;
+    }
+
+    const setGameNode = (node) => {
+        gameNode = node;
+    }
+
+    return {start, 
+            playTurn, 
+            getGameNode, 
+            setGameNode};
 })();
