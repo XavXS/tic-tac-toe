@@ -258,9 +258,9 @@ const Player = (_name, _mark, _isCpu, _level, _firstmover) => {
     }
 
     return {
-            getName, 
-            getMark, 
-            play
+        getName, 
+        getMark, 
+        play
     };
 }
 
@@ -290,11 +290,13 @@ const displayManager = (() => {
         _header.textContent = `It's a tie!`;
     }
 
-    return {displayMark, 
-            clearMarks,
-            displayTurn, 
-            displayWin, 
-            displayTie};
+    return {
+        displayMark, 
+        clearMarks,
+        displayTurn, 
+        displayWin, 
+        displayTie
+    };
 })();
 
 const game = (() => {
@@ -315,20 +317,24 @@ const game = (() => {
         let p2diffs = document.getElementsByName('p2-diff');
         let p1diff, p2diff;
 
+        let p1first = document.getElementById('p1-first').checked;
+        let p2first = document.getElementById('p2-first').checked;
+
         p1diffs.forEach(diff => {
             if(diff.checked)
                 p1diff = parseInt(diff.value);
-        })
+        });
+
         p2diffs.forEach(diff => {
             if(diff.checked)
                 p2diff = parseInt(diff.value);
-        })
+        });
 
         gameRunning = true;
         gameNode = gameTree.getRoot();
-        player1 = Player('player 1', 'X', p1cpu, p1diff, true);
-        player2 = Player('player 2', 'O', p2cpu, p2diff, false);
-        turn = player1;
+        player1 = Player('player 1', 'X', p1cpu, p1diff, p1first);
+        player2 = Player('player 2', 'O', p2cpu, p2diff, p2first);
+        turn = (p1first ? player1 : player2);
 
         gameBoard.clear();
         displayManager.clearMarks();
@@ -388,8 +394,10 @@ const game = (() => {
         gameNode = node;
     }
 
-    return {start, 
-            playTurn, 
-            getGameNode, 
-            setGameNode};
+    return {
+        start, 
+        playTurn, 
+        getGameNode, 
+        setGameNode
+    };
 })();
