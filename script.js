@@ -309,6 +309,9 @@ const game = (() => {
     const start = () => {
         if(gameRunning)
             return;
+
+        let p1name = document.getElementById('p1-name').value;
+        let p2name = document.getElementById('p2-name').value;
         
         let p1cpu = document.getElementById('p1cpu').checked;
         let p2cpu = document.getElementById('p2cpu').checked;
@@ -332,8 +335,8 @@ const game = (() => {
 
         gameRunning = true;
         gameNode = gameTree.getRoot();
-        player1 = Player('player 1', 'X', p1cpu, p1diff, p1first);
-        player2 = Player('player 2', 'O', p2cpu, p2diff, p2first);
+        player1 = Player(p1name, 'X', p1cpu, p1diff, p1first);
+        player2 = Player(p2name, 'O', p2cpu, p2diff, p2first);
         turn = (p1first ? player1 : player2);
 
         gameBoard.clear();
