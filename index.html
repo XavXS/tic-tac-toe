@@ -19,12 +19,42 @@
 					<div class="mark-container"> </div>
 					<label for="p1cpu">
 						<input type="checkbox" id="p1cpu"> <span>CPU</span> </label>
+                    <fieldset>
+                        <legend>AI Difficulty</legend>
+                        <label for="p1-easy">
+                            <input type="radio" name="p1-diff" id="p1-easy" value="0" checked>
+                            <span>Easy</span>
+                        </label>
+                        <label for="p1-normal">
+                            <input type="radio" name="p1-diff" id="p1-normal" value="1">
+                            <span>Normal</span>
+                        </label>
+                        <label for="p1-impossible">
+                            <input type="radio" name="p1-diff" id="p1-impossible" value="2">
+                            <span>Impossible</span>
+                        </label>
+                    </fieldset>
 				</div>
 				<div class="player2">
 					<h3>Player 2</h3>
 					<div class="mark-container"> </div>
 					<label for="p2cpu">
 						<input type="checkbox" id="p2cpu"> <span>CPU</span> </label>
+                        <fieldset id="p2-diff">
+                            <legend>AI Difficulty</legend>
+                            <label for="p2-easy">
+                                <input type="radio" name="p2-diff" id="p2-easy" value="0" checked>
+                                <span>Easy</span>
+                            </label>
+                            <label for="p2-normal">
+                                <input type="radio" name="p2-diff" id="p2-normal" value="1">
+                                <span>Normal</span>
+                            </label>
+                            <label for="p2-impossible">
+                                <input type="radio" name="p2-diff" id="p2-impossible" value="2">
+                                <span>Impossible</span>
+                            </label>
+                        </fieldset>
 				</div>
 			</div>
 			<button onclick="game.start();">Start</button>

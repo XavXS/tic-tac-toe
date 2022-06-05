@@ -12,6 +12,11 @@
     font-family: sans-serif;
 }
 
+fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(3, var(--square-size));
@@ -43,4 +48,5 @@
 
 .configuration {
     display: flex;
+    gap: 16px;
 }

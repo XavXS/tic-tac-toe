@@ -227,17 +227,33 @@ const Player = (_name, _mark, _isCpu, _level, _firstmover) => {
         if(!_isCpu) return;
 
         switch(_level) {
-                // easy mode
-            case 0:
+            case 0: // easy
+                if(_firstmover) {
+                    let newNode = game.getGameNode().findMinChild();
+                    game.playTurn(newNode.getIndex(), newNode);
+                }
+                else {
+                    let newNode = game.getGameNode().findMaxChild();
+                    game.playTurn(newNode.getIndex(), newNode);
+                }
                 break;
-                // impossible mode
-            case 2:
-                // normal mode
-            default:
-                let indices = gameBoard.getEmptyIndices(gameBoard.getBoard());
+            case 1: // normal
+                let indices = gameBoard.getEmptyIndices();
                 let randIndex = Math.floor(Math.random() * indices.length);
-                let choice = indices[randIndex];
-                game.playTurn(choice);
+                game.playTurn(indices[randIndex]);
+                break;
+            case 2: // impossible
+                if(_firstmover) {
+                    let newNode = game.getGameNode().findMaxChild();
+                    game.playTurn(newNode.getIndex(), newNode);
+                }
+                else {
+                    let newNode = game.getGameNode().findMinChild();
+                    game.playTurn(newNode.getIndex(), newNode);
+                }
+                break;
+            default:
+                throw('Difficulty not found');
         }
     }
 
@@ -295,10 +311,23 @@ const game = (() => {
         let p1cpu = document.getElementById('p1cpu').checked;
         let p2cpu = document.getElementById('p2cpu').checked;
 
+        let p1diffs = document.getElementsByName('p1-diff');
+        let p2diffs = document.getElementsByName('p2-diff');
+        let p1diff, p2diff;
+
+        p1diffs.forEach(diff => {
+            if(diff.checked)
+                p1diff = parseInt(diff.value);
+        })
+        p2diffs.forEach(diff => {
+            if(diff.checked)
+                p2diff = parseInt(diff.value);
+        })
+
         gameRunning = true;
-        gameNode = gameTree.getRootNode();
-        player1 = Player('player 1', 'X', p1cpu, 0, true);
-        player2 = Player('player 2', 'O', p2cpu, 0, false);
+        gameNode = gameTree.getRoot();
+        player1 = Player('player 1', 'X', p1cpu, p1diff, true);
+        player2 = Player('player 2', 'O', p2cpu, p2diff, false);
         turn = player1;
 
         gameBoard.clear();
@@ -324,6 +353,12 @@ const game = (() => {
         let name = turn.getName();
 
         // update node
+        if(newNode) {
+            gameNode = newNode;
+        }
+        else {
+            gameNode = gameNode.getChildren().find(child => (child.getIndex() === index));
+        }
 
         // update board
         gameBoard.addMark(index, mark);
