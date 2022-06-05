@@ -19,7 +19,52 @@
                     <label for="p1-name">
                         <input type="text" id="p1-name" value="Player 1">
                     </label>
-					<div class="mark-container"> </div>
+					<div class="mark-container">
+                        <label for="p1-bee">
+                            <input type="radio" id="p1-bee" name="p1-mark" value="0" checked>
+                            <img src="img/bee.png" alt="bee">
+                        </label>
+
+                        <label for="p1-burger">
+                            <input type="radio" id="p1-burger" name="p1-mark" value="1">
+                            <img src="img/burger.png" alt="burger">
+                        </label>
+
+                        <label for="p1-cat">
+                            <input type="radio" id="p1-cat" name="p1-mark" value="2">
+                            <img src="img/cat.png" alt="cat">
+                        </label>
+
+                        <label for="p1-dog">
+                            <input type="radio" id="p1-dog" name="p1-mark" value="3">
+                            <img src="img/dog.png" alt="dog">
+                        </label>
+
+                        <label for="p1-heart">
+                            <input type="radio" id="p1-heart" name="p1-mark" value="4">
+                            <img src="img/heart.png" alt="heart">
+                        </label>
+
+                        <label for="p1-ice-cream">
+                            <input type="radio" id="p1-ice-cream" name="p1-mark" value="5">
+                            <img src="img/ice-cream.png" alt="ice cream">
+                        </label>
+
+                        <label for="p1-penguin">
+                            <input type="radio" id="p1-penguin" name="p1-mark" value="6">
+                            <img src="img/penguin.png" alt="penguin">
+                        </label>
+
+                        <label for="p1-star">
+                            <input type="radio" id="p1-star" name="p1-mark" value="7">
+                            <img src="img/star.png" alt="star">
+                        </label>
+
+                        <label for="p1-triangle">
+                            <input type="radio" id="p1-triangle" name="p1-mark" value="8">
+                            <img src="img/triangle.png" alt="triangle">
+                        </label>
+                    </div>
 					<label for="p1cpu">
 						<input type="checkbox" id="p1cpu"> <span>CPU</span> </label>
                     <fieldset>
@@ -47,7 +92,52 @@
                     <label for="p2-name">
                         <input type="text" id="p2-name" value="Player 2">
                     </label>
-					<div class="mark-container"> </div>
+					<div class="mark-container">
+                        <label for="p2-bee">
+                            <input type="radio" id="p2-bee" name="p2-mark" value="0">
+                            <img src="img/bee.png" alt="bee">
+                        </label>
+
+                        <label for="p2-burger">
+                            <input type="radio" id="p2-burger" name="p2-mark" value="1" checked>
+                            <img src="img/burger.png" alt="burger">
+                        </label>
+
+                        <label for="p2-cat">
+                            <input type="radio" id="p2-cat" name="p2-mark" value="2">
+                            <img src="img/cat.png" alt="cat">
+                        </label>
+
+                        <label for="p2-dog">
+                            <input type="radio" id="p2-dog" name="p2-mark" value="3">
+                            <img src="img/dog.png" alt="dog">
+                        </label>
+
+                        <label for="p2-heart">
+                            <input type="radio" id="p2-heart" name="p2-mark" value="4">
+                            <img src="img/heart.png" alt="heart">
+                        </label>
+
+                        <label for="p2-ice-cream">
+                            <input type="radio" id="p2-ice-cream" name="p2-mark" value="5">
+                            <img src="img/ice-cream.png" alt="ice cream">
+                        </label>
+
+                        <label for="p2-penguin">
+                            <input type="radio" id="p2-penguin" name="p2-mark" value="6">
+                            <img src="img/penguin.png" alt="penguin">
+                        </label>
+
+                        <label for="p2-star">
+                            <input type="radio" id="p2-star" name="p2-mark" value="7">
+                            <img src="img/star.png" alt="star">
+                        </label>
+
+                        <label for="p2-triangle">
+                            <input type="radio" id="p2-triangle" name="p2-mark" value="8">
+                            <img src="img/triangle.png" alt="triangle">
+                        </label>
+                    </div>
 					<label for="p2cpu">
 						<input type="checkbox" id="p2cpu"> <span>CPU</span> </label>
                         <fieldset id="p2-diff">
@@ -75,15 +165,15 @@
 		</div>
 		<h2>TIC TAC TOE</h2>
 		<div class="container">
-			<div onclick="game.playTurn(1);"></div>
-			<div onclick="game.playTurn(2);"></div>
-			<div onclick="game.playTurn(3);"></div>
-			<div onclick="game.playTurn(4);"></div>
-			<div onclick="game.playTurn(5);"></div>
-			<div onclick="game.playTurn(6);"></div>
-			<div onclick="game.playTurn(7);"></div>
-			<div onclick="game.playTurn(8);"></div>
-			<div onclick="game.playTurn(9);"></div>
+            <img src="img/empty.png" onclick="game.playTurn(1);"></img>
+            <img src="img/empty.png" onclick="game.playTurn(2);"></img>
+			<img src="img/empty.png" onclick="game.playTurn(3);"></img>
+			<img src="img/empty.png" onclick="game.playTurn(4);"></img>
+			<img src="img/empty.png" onclick="game.playTurn(5);"></img>
+			<img src="img/empty.png" onclick="game.playTurn(6);"></img>
+			<img src="img/empty.png" onclick="game.playTurn(7);"></img>
+			<img src="img/empty.png" onclick="game.playTurn(8);"></img>
+			<img src="img/empty.png" onclick="game.playTurn(9);"></img>
 		</div>
 	</div>
 </body>

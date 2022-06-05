@@ -214,13 +214,17 @@ const gameTree = (() => {
     return {getRoot,};
 })();
 
-const Player = (_name, _mark, _isCpu, _level, _firstmover) => {
+const Player = (_name, _mark, _markId, _isCpu, _level, _firstmover) => {
     const getName = () => {
         return _name;
     }
 
     const getMark = () => {
         return _mark;
+    }
+
+    const getMarkId = () => {
+        return _markId;
     }
 
     const play = () => {
@@ -260,21 +264,52 @@ const Player = (_name, _mark, _isCpu, _level, _firstmover) => {
     return {
         getName, 
         getMark, 
+        getMarkId,
         play
     };
 }
 
 const displayManager = (() => {
-    const _squares = document.querySelectorAll('.container div');
+    const _squares = document.querySelectorAll('.container img');
     const _header = document.querySelector('h2');
 
     const displayMark = (index, mark) => {
-        _squares[index-1].textContent = mark;
+        let path;
+        switch(mark) {
+            case 0:
+                path = 'img/bee.png';
+                break;
+            case 1:
+                path = 'img/burger.png';
+                break;
+            case 2:
+                path = 'img/cat.png';
+                break;
+            case 3:
+                path = 'img/dog.png';
+                break;
+            case 4:
+                path = 'img/heart.png';
+                break;
+            case 5:
+                path = 'img/ice-cream.png';
+                break;
+            case 6:
+                path = 'img/penguin.png';
+                break;
+            case 7:
+                path = 'img/star.png';
+                break;
+            case 8:
+                path = 'img/triangle.png';
+                break;
+        }
+        _squares[index-1].setAttribute('src', path);
     };
 
     const clearMarks = () => {
         for(let i=0; i<_squares.length; ++i) {
-            _squares[i].textContent = '';
+            _squares[i].setAttribute('src', 'img/empty.png');
         }
     }
 
@@ -312,6 +347,10 @@ const game = (() => {
 
         let p1name = document.getElementById('p1-name').value;
         let p2name = document.getElementById('p2-name').value;
+
+        let p1marks = document.getElementsByName('p1-mark');
+        let p2marks = document.getElementsByName('p2-mark');
+        let p1markId, p2markId;
         
         let p1cpu = document.getElementById('p1cpu').checked;
         let p2cpu = document.getElementById('p2cpu').checked;
@@ -333,10 +372,20 @@ const game = (() => {
                 p2diff = parseInt(diff.value);
         });
 
+        p1marks.forEach(mark => {
+            if(mark.checked)
+                p1markId = parseInt(mark.value);
+        });
+
+        p2marks.forEach(mark => {
+            if(mark.checked)
+                p2markId = parseInt(mark.value);
+        });
+
         gameRunning = true;
         gameNode = gameTree.getRoot();
-        player1 = Player(p1name, 'X', p1cpu, p1diff, p1first);
-        player2 = Player(p2name, 'O', p2cpu, p2diff, p2first);
+        player1 = Player(p1name, 'X', p1markId, p1cpu, p1diff, p1first);
+        player2 = Player(p2name, 'O', p2markId, p2cpu, p2diff, p2first);
         turn = (p1first ? player1 : player2);
 
         gameBoard.clear();
@@ -359,7 +408,6 @@ const game = (() => {
             return;
 
         let mark = turn.getMark();
-        let name = turn.getName();
 
         // update node
         if(newNode) {
@@ -371,11 +419,11 @@ const game = (() => {
 
         // update board
         gameBoard.addMark(index, mark);
-        displayManager.displayMark(index, mark);
+        displayManager.displayMark(index, turn.getMarkId());
 
         // detect win
         if(gameBoard.hasWon(mark)) {
-            displayManager.displayWin(name);
+            displayManager.displayWin(turn.getName());
             gameRunning = false;
             return;
         }

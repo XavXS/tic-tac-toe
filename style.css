@@ -1,6 +1,6 @@
 :root {
     --square-size: 94px;
-    --select-size: 32px;
+    --select-size: 48px;
     --shadow-col: rgba(0, 0, 0, 0.5);
     font-size: 16px;
 }
@@ -17,12 +17,20 @@ fieldset {
     flex-direction: column;
 }
 
+.site {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(3, var(--square-size));
 }
 
-.container div {
+.container img {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,6 +45,11 @@ fieldset {
     grid-template-columns: repeat(3, var(--select-size));
 }
 
+.mark-container img {
+    width: var(--select-size);
+    height: var(--select-size);
+}
+
 .main-menu {
     position: absolute;
     background-color: white;
@@ -44,6 +57,7 @@ fieldset {
     box-shadow: 0 0 4px var(--shadow-col);
     padding: 16px;
     right: 0;
+    top: 0;
 }
 
 .configuration {
