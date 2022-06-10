@@ -3,7 +3,6 @@
 :root {
     --square-size: 94px;
     --select-size: 64px;
-    --shadow-col: rgba(0, 0, 0, 0.5);
     --p1-col: rgb(134, 209, 216);
     --p2-col: rgb(202, 163, 233);
     --disabled-col: rgb(235, 145, 145);
@@ -48,7 +47,6 @@ fieldset {
     overflow: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     border: 0;
     height: 0;
     padding: 0 16px;
@@ -60,6 +58,11 @@ fieldset {
 
 fieldset.p2 {
     background-color: var(--p2-col);
+}
+
+.cpu-checkbox:checked ~ fieldset {
+    padding: 8px 16px;
+    height: 97px;
 }
 
 fieldset.diff input {
@@ -117,11 +120,6 @@ fieldset.diff input:checked + label {
     top: 8px;
     left: 8px;
     border-radius: 6px;
-}
-
-.cpu-checkbox:checked ~ fieldset {
-    padding: 16px;
-    height: 94px;
 }
 
 .site {
@@ -273,7 +271,7 @@ fieldset.diff input:checked + label {
     position: absolute;
     background-color: white;
     border-radius: 16px;
-    box-shadow: 0 0 4px var(--shadow-col);
+    box-shadow: var(--shadow);
     padding: 16px;
     transition: 0.35s;
     z-index: 100;
