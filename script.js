@@ -1,3 +1,18 @@
+init();
+
+function init () {
+    let inputs = document.querySelectorAll('.name-input');
+    
+    inputs.forEach(input => {
+        input.addEventListener('input', resizeInput);
+        resizeInput.call(input);
+    });
+
+    function resizeInput() {
+        this.style.width = this.value.length + "ch";
+    }
+}
+
 const gameBoard = (() => {
     let _board = [];
 
@@ -270,8 +285,17 @@ const Player = (_name, _mark, _markId, _isCpu, _level, _firstmover) => {
 }
 
 const displayManager = (() => {
-    const _squares = document.querySelectorAll('.container img');
+    const _squares = document.querySelectorAll('.container div img');
     const _header = document.querySelector('h2');
+    const menu = document.querySelector('.main-menu');
+
+    const closeMenu = () => {
+        menu.classList.add('hidden');
+    }
+
+    const openMenu = () => {
+        menu.classList.remove('hidden');
+    }
 
     const displayMark = (index, mark) => {
         let path;
@@ -305,12 +329,14 @@ const displayManager = (() => {
                 break;
         }
         _squares[index-1].setAttribute('src', path);
+        _squares[index-1].classList.add('marked');
     };
 
     const clearMarks = () => {
-        for(let i=0; i<_squares.length; ++i) {
-            _squares[i].setAttribute('src', 'img/empty.png');
-        }
+        _squares.forEach(square => {
+            square.classList.remove('marked');
+            square.setAttribute('src', 'img/empty.png');
+        });
     }
 
     const displayTurn = (name) => {
@@ -330,7 +356,9 @@ const displayManager = (() => {
         clearMarks,
         displayTurn, 
         displayWin, 
-        displayTie
+        displayTie,
+        closeMenu,
+        openMenu
     };
 })();
 
@@ -342,9 +370,6 @@ const game = (() => {
     let gameNode;
 
     const start = () => {
-        if(gameRunning)
-            return;
-
         let p1name = document.getElementById('p1-name').value;
         let p2name = document.getElementById('p2-name').value;
 

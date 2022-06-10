@@ -16,7 +16,7 @@
 			<div class="configuration">
 				<div class="player-config">
                     <div class="name-input-wrap">                    
-                        <input class="name-input" type="text" id="p1-name" value="Player 1" maxlength="16">
+                        <input class="name-input" type="text" id="p1-name" value="Player 1" maxlength="12">
                         <label for="p1-name">
                             <img class="edit-icon" src="img/edit.png" alt="edit-icon">
                         </label>
@@ -102,7 +102,7 @@
 				</div>
 				<div class="player-config">
                     <div class="name-input-wrap">                    
-                        <input class="name-input" type="text" id="p2-name" value="Player 2" maxlength="16">
+                        <input class="name-input" type="text" id="p2-name" value="Player 2" maxlength="12">
                         <label for="p2-name">
                             <img class="edit-icon" src="img/edit.png" alt="edit-icon">
                         </label>
@@ -186,20 +186,21 @@
                         <label for="p2-first">Start First</label>
 				</div>
 			</div>
-			<button onclick="game.start();">Start</button>
+			<button onclick="game.start(); displayManager.closeMenu();">Start</button>
 		</div>
 		<h2>TIC TAC TOE</h2>
 		<div class="container">
-            <img src="img/empty.png" onclick="game.playTurn(1);"></img>
-            <img src="img/empty.png" onclick="game.playTurn(2);"></img>
-			<img src="img/empty.png" onclick="game.playTurn(3);"></img>
-			<img src="img/empty.png" onclick="game.playTurn(4);"></img>
-			<img src="img/empty.png" onclick="game.playTurn(5);"></img>
-			<img src="img/empty.png" onclick="game.playTurn(6);"></img>
-			<img src="img/empty.png" onclick="game.playTurn(7);"></img>
-			<img src="img/empty.png" onclick="game.playTurn(8);"></img>
-			<img src="img/empty.png" onclick="game.playTurn(9);"></img>
+            <div onclick="game.playTurn(1);"><img src="img/empty.png"></img></div>
+            <div onclick="game.playTurn(2);"><img src="img/empty.png"></img></div>
+			<div onclick="game.playTurn(3);"><img src="img/empty.png"></img></div>
+			<div onclick="game.playTurn(4);"><img src="img/empty.png"></img></div>
+			<div onclick="game.playTurn(5);"><img src="img/empty.png"></img></div>
+			<div onclick="game.playTurn(6);"><img src="img/empty.png"></img></div>
+			<div onclick="game.playTurn(7);"><img src="img/empty.png"></img></div>
+			<div onclick="game.playTurn(8);"><img src="img/empty.png"></img></div>
+			<div onclick="game.playTurn(9);"><img src="img/empty.png"></img></div>
 		</div>
+        <button class="menu-btn" onclick="displayManager.openMenu();">Main Menu</button>
 	</div>
 </body>
 
