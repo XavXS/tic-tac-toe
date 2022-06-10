@@ -16,7 +16,7 @@
 			<div class="configuration">
 				<div class="player-config">
                     <div class="name-input-wrap">                    
-                        <input class="name-input" type="text" id="p1-name" value="Player 1" maxlength="10">
+                        <input class="name-input" type="text" id="p1-name" value="Player 1" maxlength="16">
                         <label for="p1-name">
                             <img class="edit-icon" src="img/edit.png" alt="edit-icon">
                         </label>
@@ -76,31 +76,33 @@
                             <img src="img/triangle.png" alt="triangle">
                         </label>
                     </div>
-					<label for="p1cpu">
-						<input type="checkbox" id="p1cpu"> <span>CPU</span> </label>
-                    <fieldset>
-                        <legend>AI Difficulty</legend>
-                        <label for="p1-easy">
-                            <input type="radio" name="p1-diff" id="p1-easy" value="0" checked>
-                            <span>Easy</span>
-                        </label>
-                        <label for="p1-normal">
-                            <input type="radio" name="p1-diff" id="p1-normal" value="1">
-                            <span>Normal</span>
-                        </label>
-                        <label for="p1-impossible">
-                            <input type="radio" name="p1-diff" id="p1-impossible" value="2">
-                            <span>Impossible</span>
-                        </label>
-                    </fieldset>
-                    <label for="p1-first">
-                        <input type="radio" name="first-mover" id="p1-first" checked>
-                        <span>Go First</span>
+                    <input type="checkbox" id="p1cpu" class="cpu-checkbox">
+					<label for="p1cpu" class="cpu-label">
+                        <span class="checkbox-mark"></span>
                     </label>
+                    <label for="p1cpu">CPU</label> 
+                    <fieldset class="diff">
+                        <input type="radio" name="p1-diff" id="p1-easy" value="0" checked>
+                        <label for="p1-easy" >
+                            Easy
+                        </label>
+                        <input type="radio" name="p1-diff" id="p1-normal" value="1">
+                        <label for="p1-normal">
+                            Normal
+                        </label>
+                        <input type="radio" name="p1-diff" id="p1-impossible" value="2">
+                        <label for="p1-impossible">
+                            Impossible
+                        </label>
+                        <span></span>
+                    </fieldset>
+                    <input class="first-mover" type="radio" name="first-mover" id="p1-first" checked>
+                    <label for="p1-first"></label>
+                    <label for="p1-first">Start First</label>
 				</div>
 				<div class="player-config">
                     <div class="name-input-wrap">                    
-                        <input class="name-input" type="text" id="p2-name" value="Player 2" maxlength="10">
+                        <input class="name-input" type="text" id="p2-name" value="Player 2" maxlength="16">
                         <label for="p2-name">
                             <img class="edit-icon" src="img/edit.png" alt="edit-icon">
                         </label>
@@ -160,27 +162,28 @@
                             <img src="img/triangle.png" alt="triangle">
                         </label>
                     </div>
-					<label for="p2cpu">
-						<input type="checkbox" id="p2cpu"> <span>CPU</span> </label>
-                        <fieldset id="p2-diff">
-                            <legend>AI Difficulty</legend>
+                    <input type="checkbox" id="p2cpu" class="cpu-checkbox">
+					<label for="p2cpu" class="cpu-label">
+                        <span class="checkbox-mark"></span>
+                    </label>
+                    <label for="p2cpu">CPU</label> 
+                        <fieldset class="p2 diff">
+                            <input type="radio" name="p2-diff" id="p2-easy" value="0" checked>
                             <label for="p2-easy">
-                                <input type="radio" name="p2-diff" id="p2-easy" value="0" checked>
-                                <span>Easy</span>
+                                Easy
                             </label>
+                            <input type="radio" name="p2-diff" id="p2-normal" value="1">
                             <label for="p2-normal">
-                                <input type="radio" name="p2-diff" id="p2-normal" value="1">
-                                <span>Normal</span>
+                                Normal
                             </label>
+                            <input type="radio" name="p2-diff" id="p2-impossible" value="2">
                             <label for="p2-impossible">
-                                <input type="radio" name="p2-diff" id="p2-impossible" value="2">
-                                <span>Impossible</span>
+                                Impossible
                             </label>
                         </fieldset>
-                    <label for="p2-first">
-                        <input type="radio" name="first-mover" id="p2-first">
-                        <span>Go First</span>
-                    </label>
+                        <input class="first-mover" type="radio" name="first-mover" id="p2-first">
+                        <label for="p2-first"></label>
+                        <label for="p2-first">Start First</label>
 				</div>
 			</div>
 			<button onclick="game.start();">Start</button>
